@@ -1,7 +1,15 @@
+import { cartIcon, logo, profile } from "../utilities/context";
+
 const Header = () => {
     return (
-        <div>
-            Header
+        <div className="flex space-x-[300px] lg:space-x-[900px] p-4 bg-orange-400">
+            <div>
+                <img className="h-14 lg:h-28 w-14 lg:w-28" alt="logo" src={logo}/>
+            </div>
+            <div className="flex space-x-16 lg:space-x-24 py-1 lg:py-4">
+                <div><img className="h-12 lg:h-16 w-12 lg:w-16" alt="cart" src={cartIcon}/></div>
+                <div><img className="h-12 lg:h-16 w-12 lg:w-16" alt="cart" src={profile}/></div>
+            </div>
         </div>
     )
 }
