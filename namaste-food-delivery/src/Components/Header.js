@@ -1,8 +1,8 @@
-import { cartIcon, logo, profile } from "../utilities/context";
+import { cartIcon, logo, profile } from "../utilities/constants";
 
 const Header = () => {
     return (
-        <div className="flex space-x-[300px] lg:space-x-[900px] p-4 bg-orange-400">
+        <div className="flex space-x-[300px] lg:space-x-[900px] p-4 bg-gray-200">
             <div>
                 <img className="h-14 lg:h-28 w-14 lg:w-28" alt="logo" src={logo}/>
             </div>
