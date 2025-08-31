@@ -1,22 +1,35 @@
 import resData from "../utilities/data";
 import { useEffect, useState } from "react";
 import {ResCard} from "./ResCard"
+import ShimmerUi from "./ShimmerUi";
 const Body = () => {
     const [restaurantData, setRestaurantData] = useState([]);
     const [defaultResData, setDefaultResData] = useState([]);
     const [searchText, setSearchText] = useState("");
 
     useEffect(()=>{
-        setRestaurantData(resData);
-        setDefaultResData(resData);
+        fetchRestaurantsData()
     },[])
+
+    const fetchRestaurantsData = async() => {
+        const data = await fetch("https://corsproxy.io/https://www.swiggy.com/dapi/restaurants/list/v5?lat=11.053222001893733&lng=77.03620623797178&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+        const json = await data.json();
+        if(json ?.data ?.cards[1] ?.card ?.card ?.gridElements){
+            setRestaurantData(json ?.data ?.cards[1] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants)
+            setDefaultResData(json ?.data ?.cards[1] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants)
+        }
+        else{
+            setRestaurantData(json ?.data ?.cards[2] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants)
+            setDefaultResData(json ?.data ?.cards[2] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants)
+        }
+    }
 
     const filterSearchRestaurants = () => {
         var filetrRes = defaultResData.filter(res => res.info.name.toUpperCase().includes(searchText.toUpperCase()));
         setRestaurantData(filetrRes);
     }
 
-    return (
+    return restaurantData.length === 0 ? <ShimmerUi /> :  (
         <div>
             <div className="px-2 lg:px-8 pt-4">
                 <input type="text" placeholder="Search Restaurants" className="px-4 py-1 border border-black" value={searchText} 
