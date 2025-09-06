@@ -5,6 +5,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Cart from './Components/Cart';
 import Error from "./Components/Error"
 import Profile from './Components/Profile';
+import ResMenu from './Components/ResMenu';
 
 const AppLayout = () => {
   return (
@@ -33,6 +34,10 @@ function App() {
         {
           path: "/profile",
           element: <Profile />
+        },
+        {
+          path: "/resMenu/:resId",
+          element: <ResMenu />
         }
       ]
     }
