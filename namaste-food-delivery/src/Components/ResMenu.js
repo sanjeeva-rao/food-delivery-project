@@ -5,26 +5,59 @@ import ShimmerUi from "./ShimmerUi";
 import MenuCards from "./MenuCards";
 const ResMenu = () => {
     const [menuData, setMenuData] = useState(null);
+    const [defaultMenuData, setDefaultMenuData] = useState(null);
     const [resDetails, setResDetails] = useState(null);
+    const [filterVegItems, setFilterVegItems] = useState(false);
+
     useEffect(()=>{
         fetchMenuItems();
     },[])
     const {resId} = useParams();
+
     const fetchMenuItems = async()=>{
         const data = await fetch(MenuApi+resId);
         const json = await data.json();
         var resNeeded = json?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(resCard => resCard.card.card.title && resCard.card.card.itemCards);
         setMenuData(resNeeded);
-        setResDetails(json?.data?.cards[2]?.card?.card)
+        setDefaultMenuData(resNeeded);
+        setResDetails(json?.data?.cards[2]?.card?.card);
     }
+
+    const updateResItems = () => {
+
+        setFilterVegItems(!filterVegItems);
+        // If filterVegItems is true => show only veg items
+        // else show all the items
+        if(filterVegItems){
+            setMenuData(defaultMenuData);
+        }
+        else{
+            const vegMenuData = JSON.parse(JSON.stringify(defaultMenuData));
+            vegMenuData.forEach(function(data){
+                data.card.card.itemCards = data.card.card.itemCards.filter((card)=>card.card.info.isVeg)
+            })
+            setMenuData(vegMenuData);
+        }
+
+    }
+
     return menuData && resDetails ? <div>
-        <div className="ml-[4%] my-2 px-4 py-4 shadow-2xl w-[90%]">
+        <div className="ml-[4%] my-2 px-4 py-4 border border-slate-400 w-[90%] rounded-lg">
             <div className="font-bold text-xl">{resDetails.info.name}</div>
             <div>{resDetails.info.avgRating} (Rating) {resDetails.info.costForTwoMessage}</div>
             <div>{resDetails.info.cuisines.join(",")}</div>
             <div>{resDetails.info.locality}</div>
         </div>
-        {resDetails.info.veg && <div className="text-green-500 bg-gray-300 w-48 px-4 py-1 rounded-lg ml-[4%] mt-4">Pure Veg Restaurant</div>}
+        {resDetails.info.veg ? <div className="text-green-500 bg-gray-300 w-48 px-4 py-1 rounded-lg ml-[4%] mt-4">Pure Veg Restaurant</div>
+            : 
+            <div className="ml-[4%] mt-8 flex cursor-pointer" onClick={updateResItems}>
+                {filterVegItems && <div className="w-10 h-4 bg-green-500 mt-2 rounded-l-lg"></div>}
+                <div className="h-8 w-8 border border-green-500 rounded-lg">
+                    <div className="h-4 w-4 bg-green-500 my-[25%] mx-[25%] rounded-full"></div>
+                </div>
+                {!filterVegItems && <div className="w-10 h-4 bg-slate-300 mt-2 rounded-r-lg"></div>}
+            </div>
+        }
         { menuData.map(resCard => <MenuCards resCard = {resCard.card.card} key={resCard.card.card.title}/>) }
     </div>
      : <ShimmerUi />
