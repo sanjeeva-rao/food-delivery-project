@@ -2,6 +2,7 @@ import resData from "../utilities/data";
 import { useEffect, useState } from "react";
 import {ResCard} from "./ResCard"
 import ShimmerUi from "./ShimmerUi";
+import useGetOnlineStatus from "../utilities/useGetOnlineStatus";
 const Body = () => {
     const [restaurantData, setRestaurantData] = useState([]);
     const [defaultResData, setDefaultResData] = useState([]);
@@ -29,7 +30,9 @@ const Body = () => {
         setRestaurantData(filetrRes);
     }
 
-    return restaurantData.length === 0 ? <ShimmerUi /> :  (
+    const onlineStatus = useGetOnlineStatus()
+    return !onlineStatus ? <div>Looks like You're offline. Please, check your internet connection.</div> :
+    restaurantData.length === 0 ? <ShimmerUi /> :  (
         <div>
             <div className="px-2 lg:px-8 pt-4">
                 <input type="text" placeholder="Search Restaurants" className="px-4 py-1 border border-black" value={searchText} 
