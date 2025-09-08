@@ -14,9 +14,12 @@ const MenuCards = ({resCard}) => {
                     <div className="w-[92%]">
                         <div className="flex py-1">
                             {
-                                card.card.info.isVeg &&
+                                card.card.info.isVeg ?
                                 <div className="h-8 w-8 border border-green-500 rounded-lg">
                                     <div className="h-4 w-4 bg-green-500 my-[25%] mx-[25%] rounded-full"></div>
+                                </div> :
+                                <div className="h-8 w-8 border border-red-500 rounded-lg">
+                                    <div className="h-4 w-4 bg-red-500 my-[25%] mx-[25%] rounded-full"></div>
                                 </div>
                             }
                             <div className="font-semibold pt-1 pl-2">{card.card.info.name}</div>
