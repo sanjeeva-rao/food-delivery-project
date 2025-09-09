@@ -9,10 +9,10 @@ const Header = () => {
             </div>
             <div className="flex space-x-16 lg:space-x-24 py-1 lg:py-4">
                 <div>
-                    <Link to={"/cart"}><img className="h-12 lg:h-16 w-12 lg:w-16" alt="cart" src={cartIcon}/></Link>
+                    <Link to={"/foodDelivery/cart"}><img className="h-12 lg:h-16 w-12 lg:w-16" alt="cart" src={cartIcon}/></Link>
                 </div>
                 <div>
-                    <Link to={"/profile"}><img className="h-12 lg:h-16 w-12 lg:w-16" alt="cart" src={profile}/></Link>
+                    <Link to={"/foodDelivery/profile"}><img className="h-12 lg:h-16 w-12 lg:w-16" alt="cart" src={profile}/></Link>
                 </div>
             </div>
         </div>

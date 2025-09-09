@@ -6,6 +6,8 @@ import Cart from './Components/Cart';
 import Error from "./Components/Error"
 import Profile from './Components/Profile';
 import ResMenu from './Components/ResMenu';
+import Home from './Components/Home';
+import GrocMain from './Components/GrocMain';
 
 const AppLayout = () => {
   return (
@@ -20,26 +22,34 @@ function App() {
   const reactRouter = createBrowserRouter([
     {
       path: "/",
-      element: <AppLayout />,
+      element: <Home />,
       errorElement: <Error />,
+    },
+    {
+      path: "/foodDelivery",
+      element: <AppLayout />,
       children: [
         {
-          path: "/",
+          path: "/foodDelivery",
           element: <Body />,
         },
         {
-        path: "/cart",
+        path: "/foodDelivery/cart",
         element: <Cart />
         },
         {
-          path: "/profile",
+          path: "/foodDelivery/profile",
           element: <Profile />
         },
         {
-          path: "/resMenu/:resId",
+          path: "/foodDelivery/resMenu/:resId",
           element: <ResMenu />
         }
       ]
+    },
+    {
+      path: "/grocery",
+      element: <GrocMain />
     }
   ]);
 
