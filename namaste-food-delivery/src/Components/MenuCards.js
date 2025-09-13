@@ -1,10 +1,9 @@
 import { cloudImgId, collapseIcon, expandIcon } from "../utilities/constants";
 import { useState } from "react";
 
-const MenuCards = ({resCard}) => {
-    const [showItems,setShowItems] = useState(false);
+const MenuCards = ({resCard, showItems, updataShowItems}) => {
     return resCard.itemCards.length ? <div className="px-4 shadow-xl py-4 w-[90%] mx-6 lg:mx-12">
-        <div className="font-bold text-lg flex cursor-pointer pt-4" onClick={()=>setShowItems(!showItems)}>
+        <div className="font-bold text-lg flex cursor-pointer pt-4" onClick={() => updataShowItems()}>
             <div className="w-[99%]">{resCard.title + " (" + resCard.itemCards.length + ")"}</div>
             <img className="h-6 w-6" src={showItems ? collapseIcon : expandIcon} alt="expand-collapse"/>
         </div>

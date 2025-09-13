@@ -8,6 +8,7 @@ const ResMenu = () => {
     const [defaultMenuData, setDefaultMenuData] = useState(null);
     const [resDetails, setResDetails] = useState(null);
     const [filterVegItems, setFilterVegItems] = useState(false);
+    const [showIndex, setShowIndex] = useState(null);
 
     useEffect(()=>{
         fetchMenuItems();
@@ -58,7 +59,7 @@ const ResMenu = () => {
                 {!filterVegItems && <div className="w-10 h-4 bg-slate-300 mt-2 rounded-r-lg"></div>}
             </div>
         }
-        { menuData.map(resCard => <MenuCards resCard = {resCard.card.card} key={resCard.card.card.title}/>) }
+        { menuData.map((resCard, index) => <MenuCards resCard = {resCard.card.card} key={resCard.card.card.title} showItems = {index === showIndex} updataShowItems = {()=>setShowIndex(showIndex === index ? null : index)}/>) }
     </div>
      : <ShimmerUi />
 }
