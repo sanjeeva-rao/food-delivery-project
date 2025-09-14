@@ -2,7 +2,10 @@ import { createContext } from "react";
 
 const ResListContext = createContext(
     {
-        resList: []
+        resList: [],
+        resMenuContextData: {
+            
+        }
     }
 )
 

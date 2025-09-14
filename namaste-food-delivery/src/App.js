@@ -21,7 +21,8 @@ const AppLayout = () => {
 };
 
 function App() {
-  const [resData, setResData] = useState([])
+  const [resData, setResData] = useState([]);
+  const [resMenuDetails, setResMenuDetails] = useState({});
   const reactRouter = createBrowserRouter([
     {
       path: "/",
@@ -59,7 +60,7 @@ function App() {
 
 
   return (
-    <ResListContext.Provider value={{resList: resData, setResData}}>
+    <ResListContext.Provider value={{resList: resData, setResData, resMenuContextData: resMenuDetails, setResMenuDetails}}>
       <RouterProvider router={reactRouter} />
     </ResListContext.Provider>
   );

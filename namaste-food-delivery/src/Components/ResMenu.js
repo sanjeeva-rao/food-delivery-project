@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { MenuApi } from "../utilities/constants";
 import { useParams } from "react-router-dom";
 import ShimmerUi from "./ShimmerUi";
 import MenuCards from "./MenuCards";
+import ResListContext from "../utilities/ResListContext";
+
 const ResMenu = () => {
     const [menuData, setMenuData] = useState(null);
     const [defaultMenuData, setDefaultMenuData] = useState(null);
     const [resDetails, setResDetails] = useState(null);
     const [filterVegItems, setFilterVegItems] = useState(false);
     const [showIndex, setShowIndex] = useState(null);
+    const {resMenuContextData, setResMenuDetails} = useContext(ResListContext);
+    
 
     useEffect(()=>{
         fetchMenuItems();
@@ -16,12 +20,22 @@ const ResMenu = () => {
     const {resId} = useParams();
 
     const fetchMenuItems = async()=>{
-        const data = await fetch(MenuApi+resId);
-        const json = await data.json();
-        var resNeeded = json?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(resCard => resCard.card.card.title && resCard.card.card.itemCards);
+        var restaurantCards;
+        if(!resMenuContextData[resId]){
+            const data = await fetch(MenuApi+resId);
+            const json = await data.json();
+            restaurantCards = json?.data?.cards;
+            var dummyObj = {...resMenuContextData};
+            dummyObj[resId] = restaurantCards;
+            setResMenuDetails(dummyObj);
+        }
+        else{
+            restaurantCards = resMenuContextData[resId];
+        }
+        const resNeeded = restaurantCards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(resCard => resCard.card.card.title && resCard.card.card.itemCards);
         setMenuData(resNeeded);
         setDefaultMenuData(resNeeded);
-        setResDetails(json?.data?.cards[2]?.card?.card);
+        setResDetails(restaurantCards[2]?.card?.card);
     }
 
     const updateResItems = () => {
