@@ -44,7 +44,7 @@ const Body = () => {
 
     const onlineStatus = useGetOnlineStatus()
     return !onlineStatus ? <div>Looks like You're offline. Please, check your internet connection.</div> :
-    restaurantData.length === 0 ? <ShimmerUi /> :  (
+        (
         <div>
             <div className="px-2 lg:px-8 pt-4">
                 <input type="text" placeholder="Search Restaurants" className="px-4 py-1 border border-black" value={searchText} 
@@ -52,11 +52,13 @@ const Body = () => {
                 />
                 <button className="bg-gray-400 px-2 py-1 rounded-lg mx-8" onClick={filterSearchRestaurants}>Search</button>
             </div>
-            <div className="flex flex-wrap">
-            {
-                restaurantData.map((res)=> <ResCard resInfo = {res.info} key={res.info.id} />)
+            {restaurantData.length === 0 ? <ShimmerUi /> : 
+                <div className="flex flex-wrap">
+                {
+                    restaurantData.map((res)=> <ResCard resInfo = {res.info} key={res.info.id} />)
+                }
+                </div>
             }
-        </div>
         </div>
     )
 }
