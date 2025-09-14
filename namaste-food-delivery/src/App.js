@@ -8,6 +8,8 @@ import Profile from './Components/Profile';
 import ResMenu from './Components/ResMenu';
 import Home from './Components/Home';
 import GrocMain from './Components/GrocMain';
+import ResListContext from './utilities/ResListContext';
+import { useState } from 'react';
 
 const AppLayout = () => {
   return (
@@ -19,6 +21,7 @@ const AppLayout = () => {
 };
 
 function App() {
+  const [resData, setResData] = useState([])
   const reactRouter = createBrowserRouter([
     {
       path: "/",
@@ -52,8 +55,14 @@ function App() {
       element: <GrocMain />
     }
   ]);
+  
 
-  return <RouterProvider router={reactRouter} />;
+
+  return (
+    <ResListContext.Provider value={{resList: resData, setResData}}>
+      <RouterProvider router={reactRouter} />
+    </ResListContext.Provider>
+  );
 }
 
 export default App;

@@ -3,25 +3,37 @@ import { useEffect, useState } from "react";
 import {ResCard} from "./ResCard"
 import ShimmerUi from "./ShimmerUi";
 import useGetOnlineStatus from "../utilities/useGetOnlineStatus";
+import { useContext } from "react";
+import ResListContext from "../utilities/ResListContext";
+
 const Body = () => {
     const [restaurantData, setRestaurantData] = useState([]);
     const [defaultResData, setDefaultResData] = useState([]);
     const [searchText, setSearchText] = useState("");
+    const {resList, setResData} = useContext(ResListContext);
 
     useEffect(()=>{
         fetchRestaurantsData()
     },[])
 
     const fetchRestaurantsData = async() => {
-        const data = await fetch("https://corsproxy.io/https://www.swiggy.com/dapi/restaurants/list/v5?lat=11.053222001893733&lng=77.03620623797178&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
-        const json = await data.json();
-        if(json ?.data ?.cards[1] ?.card ?.card ?.gridElements){
-            setRestaurantData(json ?.data ?.cards[1] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants)
-            setDefaultResData(json ?.data ?.cards[1] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants)
+        if(resList.length === 0){
+            const data = await fetch("https://corsproxy.io/https://www.swiggy.com/dapi/restaurants/list/v5?lat=11.053222001893733&lng=77.03620623797178&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+            const json = await data.json();
+            if(json ?.data ?.cards[1] ?.card ?.card ?.gridElements){
+                setRestaurantData(json ?.data ?.cards[1] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants);
+                setDefaultResData(json ?.data ?.cards[1] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants);
+                setResData(json ?.data ?.cards[1] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants);
+            }
+            else{
+                setRestaurantData(json ?.data ?.cards[2] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants);
+                setDefaultResData(json ?.data ?.cards[2] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants);
+                setResData(json ?.data ?.cards[2] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants);
+            }
         }
         else{
-            setRestaurantData(json ?.data ?.cards[2] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants)
-            setDefaultResData(json ?.data ?.cards[2] ?.card ?.card ?.gridElements ?.infoWithStyle ?.restaurants)
+            setRestaurantData(resList);
+            setDefaultResData(resList);
         }
     }
 
