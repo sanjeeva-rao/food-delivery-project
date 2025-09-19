@@ -37,7 +37,8 @@ const Body = () => {
         }
     }
 
-    const filterSearchRestaurants = () => {
+    const filterSearchRestaurants = (val) => {
+        setSearchText(val)
         var filetrRes = defaultResData.filter(res => res.info.name.toUpperCase().includes(searchText.toUpperCase()));
         setRestaurantData(filetrRes);
     }
@@ -46,11 +47,10 @@ const Body = () => {
     return !onlineStatus ? <div>Looks like You're offline. Please, check your internet connection.</div> :
         (
         <div>
-            <div className="px-2 lg:px-8 pt-4">
-                <input type="text" placeholder="Search Restaurants" className="px-4 py-1 border border-black" value={searchText} 
-                    onChange={(e)=>setSearchText(e.target.value)}
+            <div className="px-2 lg:px-8 py-4 mx-[30%]">
+                <input type="text" placeholder="Search Restaurants" className="px-16 py-1 border border-black" value={searchText} 
+                    onChange={(e)=>filterSearchRestaurants(e.target.value)}
                 />
-                <button className="bg-gray-400 px-2 py-1 rounded-lg mx-8" onClick={filterSearchRestaurants}>Search</button>
             </div>
             {restaurantData.length === 0 ? <ShimmerUi /> : 
                 <div className="flex flex-wrap">
