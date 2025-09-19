@@ -5,7 +5,10 @@ const ResListContext = createContext(
         resList: [],
         resMenuContextData: {
             
-        }
+        },
+        cartItems: [
+            
+        ]
     }
 )
 

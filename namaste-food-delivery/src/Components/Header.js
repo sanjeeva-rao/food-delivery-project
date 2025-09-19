@@ -1,20 +1,25 @@
 import { cartIcon, logo, profile } from "../utilities/constants";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import ResListContext from "../utilities/ResListContext";
 
 const Header = () => {
+    const {cartItems} = useContext(ResListContext);
     return (
-        <div className="flex space-x-[300px] lg:space-x-[900px] p-4 bg-gray-200">
+        <div className="flex justify-between p-4 bg-gray-200">
             <div>
-                <Link to={"/"}><img className="h-14 lg:h-28 w-14 lg:w-28" alt="logo" src={logo}/></Link>
+                <Link to={"/"}><img className="h-14 lg:h-14 w-14 lg:w-14" alt="logo" src={logo}/></Link>
             </div>
-            <div className="flex space-x-16 lg:space-x-24 py-1 lg:py-4">
-                <div>
-                    <Link to={"/foodDelivery/cart"}><img className="h-12 lg:h-16 w-12 lg:w-16" alt="cart" src={cartIcon}/></Link>
+            <Link to={"/foodDelivery/cart"}>
+                <div className="flex justify-between">
+                    {
+                        cartItems.length !== 0 && <div className="relative left-7 bottom-4 text-green-600">
+                            {cartItems.length}
+                        </div>
+                    }
+                    <img className="h-12 lg:h-12 w-12 lg:w-12" alt="cart" src={cartIcon}/>
                 </div>
-                <div>
-                    <Link to={"/foodDelivery/profile"}><img className="h-12 lg:h-16 w-12 lg:w-16" alt="cart" src={profile}/></Link>
-                </div>
-            </div>
+            </Link>
         </div>
     )
 }

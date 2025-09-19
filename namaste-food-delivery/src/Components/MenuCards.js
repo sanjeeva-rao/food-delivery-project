@@ -1,7 +1,30 @@
-import { cloudImgId, collapseIcon, expandIcon } from "../utilities/constants";
-import { useState } from "react";
+import { cloudImgId, collapseIcon, expandIcon, logo } from "../utilities/constants";
+import { useState, useContext, useEffect } from "react";
+import ResListContext from "../utilities/ResListContext";
 
 const MenuCards = ({resCard, showItems, updataShowItems}) => {
+
+    const {cartItems, setCartItems} = useContext(ResListContext);
+
+    const addItemsToCart = (info) => {
+        info.addClicked = !info.addClicked;
+        var dummy = [...cartItems];
+        if(info.addClicked){
+            dummy.push(info);
+        }
+        else{
+            dummy = dummy.filter((res)=>res.id !== info.id)
+        }
+        setCartItems(dummy);
+    }
+
+    useEffect(()=>{
+        if(cartItems.length === 0 && resCard.itemCards.length){
+            resCard.itemCards.forEach((card)=>card.card.info.addClicked = false);
+        }
+    },[cartItems])
+
+    
     return resCard.itemCards.length ? <div className="px-4 shadow-xl py-4 w-[90%] mx-6 lg:mx-12">
         <div className="font-bold text-lg flex cursor-pointer pt-4" onClick={() => updataShowItems()}>
             <div className="w-[99%]">{resCard.title + " (" + resCard.itemCards.length + ")"}</div>
@@ -23,13 +46,13 @@ const MenuCards = ({resCard, showItems, updataShowItems}) => {
                             }
                             <div className="font-semibold pt-1 pl-2">{card.card.info.name}</div>
                         </div>
-                        <div>₹ {card.card.info.price/100}</div>
+                        <div>₹ {card.card.info.price ? card.card.info.price/100 : card.card.info.defaultPrice/100}</div>
                         <div>{card.card.info.description}</div>
                         <div>{card.card.info.ratings.aggregatedRating.rating} Rating</div>
                     </div>
                     <div className="">
                         {card.card.info.imageId && <img className="h-32 w-32" alt="img" src={cloudImgId + card.card.info.imageId} />}
-                        <div className="px-1 py-2 text-center bg-slate-300 text-green-700 rounded-lg my-1 w-32">Add</div>
+                        <div className="px-1 py-2 text-center bg-slate-300 text-green-700 rounded-lg my-1 w-32 cursor-pointer" onClick={()=>addItemsToCart(card.card.info)}>{card.card.info.addClicked ? "Remove" : "Add"}</div>
                     </div>
                 </div>
                 <br></br>

@@ -23,6 +23,7 @@ const AppLayout = () => {
 function App() {
   const [resData, setResData] = useState([]);
   const [resMenuDetails, setResMenuDetails] = useState({});
+  const [cartItems, setCartItems] = useState([]);
   const reactRouter = createBrowserRouter([
     {
       path: "/",
@@ -60,7 +61,7 @@ function App() {
 
 
   return (
-    <ResListContext.Provider value={{resList: resData, setResData, resMenuContextData: resMenuDetails, setResMenuDetails}}>
+    <ResListContext.Provider value={{resList: resData, setResData, resMenuContextData: resMenuDetails, setResMenuDetails, cartItems: cartItems, setCartItems}}>
       <RouterProvider router={reactRouter} />
     </ResListContext.Provider>
   );
